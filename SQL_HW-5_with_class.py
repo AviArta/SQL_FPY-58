@@ -184,7 +184,16 @@ class Client:
             """)
         return cur.fetchall()[0]
 
-conn = psycopg2.connect(database='sql_hw5', user='postgres', password='ArtAvia11')
+def config_read():
+    filename = 'pas.config'
+    contents = open(filename).read()
+    config = eval(contents)
+    password = config['password']
+    return password
+
+password = config_read()
+
+conn = psycopg2.connect(database='sql_hw5', user='postgres', password=password)
 with conn.cursor() as cur:
     print(Client.create_db(conn))
     print(Client.add_client(conn, 'Анна', 'Кувшинова'))
